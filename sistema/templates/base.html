@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block titulo %}{% endblock %}FACYT | IHC </title>
+    <link rel="stylesheet" href="{% static 'dist/bootstrap/css/bootstrap.min.css' %}">
+    <link rel='shortcut icon' href="{% static 'imagenes/iconoFACYT.png' %}">
+    {% block style_css %}{% endblock %}
+    <script src="{% static 'dist/jquery/jquery-1.11.3.min.js' %}"></script>
+    <script src="{% static 'dist/bootstrap/js/bootstrap.min.js' %}"></script>
+  </head>
+  <body>
+    <A name="Inicio"></A>
+    <style>
+
+      .navbar {
+        background: rgba(66, 133, 244, 0.9);
+        border: none;
+        }
+        .navbar .navbar-nav li a{
+          color: white;
+        }
+
+        .dropdown-menu{
+          background-color:rgba(66, 133, 244, 1);
+
+        }
+
+        .dropdown-menu >li a:hover{
+          background-color: black;
+          color: white
+
+        }
+        
+      footer {
+        position: relative;
+        margin-top: 0px; /* ponga en negativo el alto de su pie de página para nuestro    ejemplo usamos 63, usted debe remplazarlo según su diseño   */
+        margin-bottom: 0px;
+        clear:both;
+        width:100%;
+        background-color: black;
+        color: white;
+      }
+      body{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: auto;
+        background-color: rgb(229,229,229);
+      }
+
+      .peque{
+        height: 25px;
+        width: 25px;
+        display: inline-block;
+      }
+      .logo{
+        background-color: white;
+      }
+      
+    </style>
+    <header>
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-6">
+            <div class="navbar-header">
+              <div class="row">
+              </div>
+              <div class="col-xs-7 col-sm-12 col-md-12 col-lg-6">
+              <a class="logo" href="{% url 'index' %}"><img alt="Imagen responsive" src="{% static 'imagenes/logoIHC.jpg' %}" class="img-responsive img-rounded"/></a>
+              </div>
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li><a href="{% url 'index' %}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Inicio </a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span> Temario <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                    {% for dato in temas %}
+                      {% if forloop.counter = 1 %}
+                        <li><a href="/tema/{{ dato.id }}/">{{dato}}</a></li>
+                      {% else %}
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/tema/{{ dato.id }}/">{{dato}}</a></li>
+                      {% endif %}
+                      {% empty %}
+                        <li>  No hay temas aún.</li>
+                    {% endfor %}
+                    </ul>
+                </li>
+                <li><a href="/documentos/"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Documentos </a></li>
+                  <li><a href="{% url 'info' %}"><span class="glyphicon glyphicon-education" aria-hidden="true"></span> Información </a></li>
+
+                <!--<ul class="nav navbar-nav"> -->
+                {% if user.is_authenticated %}
+                  <li class="dropdown">
+                    {% if perfil.conimagen %}
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src='{{MEDIA_URL}}{{perfil.imagen}}' alt="imagen de perfil" class="img-responsive img-circle peque"> {{user.username}} <span class="caret"></span></a> 
+                    {% else %}
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{user.username}} <span class="caret"></span></a>
+                    {% endif %} 
+                    
+                  <ul class="dropdown-menu">
+                    <li><a href="/editar_perfil/"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar Perfil</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/editar_foto_perfil/"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Editar foto de Perfil</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/inicial_test/"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Test Inicial</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/estilos/"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Tus estilos</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/cambio_password/"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Cambiar contraseña</a></li>
+                    {% if is_profesor %}
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/profesor/"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Ir a sitio de profesor</a></li>
+                    {% elif user.is_staff %}
+                      <li role="separator" class="divider"></li>
+                    <li><a href="/admin/"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Ir a sitio de administrador</a></li>
+                    {% endif %}
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/logout/"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Cerrar Sesión</a></li>
+                  </ul></li>  
+                {% else %}
+                  <li><a href="/login/?next={{ request.path }}"><button type="button" class="btn btn-success bnt-xs">Iniciar Sesión</button></a></li>
+                {% endif %}
+                <!--</ul>-->
+            </div><!-- /.navbar-collapse -->
+          </div> <!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </nav>
+      <hr>
+      {% block encabezado %}{% endblock %}
+    </header>	
+  <section class='contenido'>
+	{% block contenido %}
+
+    {% endblock %}
+  </section>
+    <footer class="navbar-fixed-bottom">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7">
+            <p> Desarrollado por Gabriela Mogollón FACYT © 2016</p>
+          </div>
+          <div class="col-md-1 col-md-offset-4">
+            <a href="http://www.facyt.uc.edu.ve">FACYT </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

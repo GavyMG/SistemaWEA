@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+
+{% comment %} Aqui van comentarios {% endcomment %}
+
+{% block titulo %}{% endblock %}
+
+{% block encabezado %} 
+{% endblock %}
+
+{% block contenido %}
+<style>
+.jumbotron{
+    background-color: white;
+    margin: 0 0 5px 0;
+}
+
+.thumbnail {
+    padding: 20px 0 15px 0;
+    border-radius: 15;
+    margin: auto;
+    max-width: 100%;
+    overflow: hidden;
+    color: rgb(74,74,76);
+    margin-bottom: 2%;
+}
+.thumbnail:hover {
+    background-color: rgba(66, 133, 244, 0.9);
+    color: rgba(255, 255, 204, 1);
+    
+}
+
+.thumbnail .img-responsive {
+    height: 150px;
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.block{
+    background-color:rgba(88, 147, 197, 0.7);
+    position: relative;
+    border-radius:4px;
+    padding-bottom: 48px;
+    color: rgba(255, 255, 255, 0.7)
+}
+a:link{
+    text-decoration: none;
+}
+.thumbnail .documentos {
+    
+    width: 290px;
+    margin-bottom: 20px;
+}
+
+.Pager{
+    color: white;
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    padding-top: 3%;
+}
+
+.cuerpo{
+    padding:0;
+    margin:auto;
+}
+
+#sitemap
+{
+    display:none;
+}
+
+@media screen and (min-width: 768px)
+{
+#sitemap{
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+}
+.sticky-absolute{
+    right: 0;
+    left: 0;
+    width: 100%;
+    padding: 0px;
+}
+
+#sitemap a, #sitemap li{
+    color: black;
+    font-family: Helvetica, sans-serif;
+
+}
+
+#sitemap a:link{
+    text-decoration: none;
+}
+
+
+.fila:hover {
+    background-color: rgba(55, 55, 55, 0.1);
+    color: rgba(255, 255, 204, 1);   
+}
+
+.over{
+    overflow-y: hidden; 
+}
+
+.over:hover{
+    overflow-y: auto; 
+}
+</style>
+
+<!-- Jumbotron -->
+<div class="container-fluid cuerpo">
+    <div class="row cuerpo"></div>
+            <div class= "col-xs-0 col-sm-3 col-md-3 col-lg-3 " style="margin:0; padding:0 0 0 1%;">
+            <div class="sticky-absolute" id="sitemap">
+                <br>
+                {% if user.is_authenticated %}
+                <div style="border-radius: 5px; border: solid 1px #e1e8ed; background-color: white; padding:15px; line-height:16px; font-family: Arial, sans-serif; color: #292f33; font-size: 14px; margin:auto;" class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                        <h3 title="Estilos de aprendizaje: modelo VARK" style="color: #66757f; font-size:18px; line-height:22px; font-weight:300; margin:auto;">Estilos de aprendizaje</h3>
+                    </div>
+                    <br>
+                    <div style=" display:inline-block; padding: 5px;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+                        <h6 title="Visual" style="margin:auto;"><img src='/static/imagenes/visual.png' alt="visual" class="img-responsive img-circle center-block peque"></h6>
+                        <h5 style="font-weight:bold; color: green; margin:auto;">{{perfil.visual}}</h5>
+                        <h6 style="font-size:13px; font-weight:bold; color: gray; margin:auto">Visual</h6>
+                    </div>
+                    <div style=" display:inline-block;  padding: 5px;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+                        <h6 title="Auditivo" style="margin:auto;"><img src='/static/imagenes/auditivo.png' alt="auditivo" class="img-responsive img-circle center-block peque"></h6>
+                        <h5 style="font-weight:bold; color: green; margin:auto;">{{perfil.auditivo}}</h5>
+                        <h6 style="font-size:13px; font-weight:bold; color: gray; margin:auto">Auditivo</h6>
+                    </div>
+                    <div style=" display:inline-block; padding: 5px;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+                        <h6 title="Lectura-Escritura" style="margin:auto;"><img src='/static/imagenes/lec.jpg' alt="Lectura-Escritura" class="img-responsive img-circle center-block peque"></h6>
+                        <h5 style="font-weight:bold; color: green; margin:auto;">{{perfil.lectura}}</h5>
+                        <h6 style="font-size:13px; font-weight:bold; color: gray; margin:auto">Lectura-E</h6>
+                    </div>
+                    <div style=" display:inline-block; padding: 5px;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+                        <h6 title="Kinestésico" style="margin:auto;"><img src='/static/imagenes/kine.png' alt="kinestesico" class="img-responsive img-circle center-block peque"></h6>
+                        <h5 style="font-weight:bold; color: green; margin:auto;">{{perfil.kinestesico}}</h5>
+                        <h6 style="font-size:13px; font-weight:bold; color: gray; margin:auto">Kinestésico</h6>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="over" style="border-radius: 5px; border: solid 1px #e1e8ed; background-color: white; padding:15px; line-height:16px; font-family: Arial, sans-serif; color: #292f33; font-size: 14px; margin-top: 8px; max-height:150px;">
+                    <div>
+                        <h3 title="Temas activos" style="color: #66757f; font-size:18px; line-height:22px; font-weight:300; margin:auto;">Temas activos</h3>
+                        <br>
+                    </div>
+                    <div style="color:#8899a6; opacity:1; font-size:12px;">
+                        {% if plan1 %}
+                            {% if plan1.activo %}
+                                {% for p in plan %}
+                                <div class="fila">
+                                <a href="/tema/{{p.id}}" style="background: transparent; display:inline-block;"><img src='{{MEDIA_URL}}{{p.imagen}}' alt="{{tema.nombre}}" class="img-rounded" style="width:48px;height:48px;"></a>
+                                <a href="/tema/{{p.id}}"><div style="display:inline-block; vertical-align:middle;"><b style="font-size:13px; font-weight:bold; color: #292f33; ">{{p}}</b><br>
+                                <b><span style="color:gray;">{{p.duracion}}</span></b></a>
+                                </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            <h6>No hay temas activos</h6>
+                            {% endif %}
+                        {% endif %}
+                     </div>
+                </div>
+                <div  class="over" style="border-radius: 5px; border: solid 1px #e1e8ed; background-color: white; padding:10px; line-height:16px; font-family: Arial, sans-serif; color: #292f33; font-size: 14px; margin-top: 8px; max-height:300px;">
+                    <div>
+                        <h3 title="Documentos de mejor Ranking" style="color: #66757f; font-size:18px; line-height:22px; font-weight:300; margin:auto;">Documentos de mejor Ranking</h3>
+                        <br>
+                    </div>
+                    <div style="color:#8899a6; opacity:1; font-size:12px;">
+                        {% for doc in documentos %}
+                        <div class="fila">
+                        <a href="/doc/{{doc.id}}" style="background: transparent; display:inline-block;">
+                            {% if doc.tipo_doc = 'video' %}
+                                <strong><h4 style="width:30px;height:30px; color: green; margin:auto;"><span class="glyphicon glyphicon-film" aria-hidden="true"></h4></strong>
+                            {% elif doc.tipo_doc = 'audio' %}
+                                <strong><h4 style="width:30px;height:30px; color: blue; margin:auto;"><span class="glyphicon glyphicon-music" aria-hidden="true"></h4></strong>
+                            {% else %}
+                                <strong><h4 style="width:30px;height:30px; color: orange; margin:auto;"><span class="glyphicon glyphicon-file" aria-hidden="true"></h4></strong>
+                            {% endif %}
+                        </a>
+                        <a href="/doc/{{doc.id}}"><div style="display:inline-block; vertical-align:middle;width:70%;"><b style="font-size:13px; font-weight:bold; color: #292f33; ">{{doc}}</b><br>
+                        <b><span style="color:gray;">{{doc.fecha|date}}</span></b></a>
+                        </div>
+                        <a href="/doc/{{doc.id}}"><div style="display:inline-block; vertical-align:middle;width:10%;">{{doc.puntuacion}}<strong><h4 style="width:30px;height:30px; color: yellow; margin:auto;"><span class="glyphicon glyphicon-star" aria-hidden="true"></h4></strong></div></a>
+                        </div>
+                        {% endfor %}
+                     </div>
+                </div>
+            </div>
+        </div>
+        <div class= "col-xs-12 col-sm-9 col-md-9 col-lg-9">
+            <br>
+            <div class="jumbotron text-center">
+                <img class="img-responsive" src='/static/imagenes/track3.png' alt="IHC_img" style="height:130px; margin:auto;">
+                <h2>Aprende ya!</h2>
+            
+                <h4>Encuentra documentos segun tu estilo de aprendizaje y refuerza lo que aprendiste en clases de Interacción Humano Computador</h4>
+                {% if user.is_authenticated %}
+                    {% if is_profesor %}
+                        <p><a class="btn btn-md btn-success" href="/profesor/" > Administrar </a></p>
+                    {% elif user.is_staff %}
+                        <p><a class="btn btn-md btn-success" href="/admin/" target="_blank"> Ir a sitio de administrador </a></p>
+                    {% elif plan1 %}
+                        {% if plan1.activo %}
+                            <p><a class="btn btn-md btn-success" href="/tema/{{ plan1.id }}/" > Ir a tema activo </a></p>
+                        {% else %}
+                            <p><a class="btn btn-md btn-success" href="/tema/{{ plan1.id }}" > Ir a Tema {{plan1.posicion}}</a></p>
+                        {% endif %}
+                    {% else %}
+                        <p style="color: red;">No hay temas registrados.</p>
+
+                    {% endif %}
+                    
+                {% else %}
+                    <p><a class="btn btn-md btn-success" href="/login/" >Iniciar Sesión</a></p>
+
+                {% endif %}
+            </div>
+            <div class="block">
+                <div class="container-fluid text-center">
+                    <div class="page-header Pager">
+                        <h1>Temario</h>
+                        <br>
+                    </div>
+                    <br>
+               	    <div class="row text-center">
+                	   {% for dato in temas %}
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                                <a href="/tema/{{ dato.id }}/">
+                                    <div class="thumbnail">
+                                        <img src='{{MEDIA_URL}}{{dato.imagen}}' alt="{{dato.nombre}}" class="img-responsive img-circle">
+                                        <div style="height: 130px;">
+                                        <h4>{{dato}}</h4>
+                                        {% if dato.activo %}
+                                            <h4 style="color:white; background-color: green;"> Activo </h4>
+                                        {% else %}
+                                            <h4 style="color:gray"> No activo </h4>
+                                        {% endif %}
+                                        <h6 style="font-size:13px; font-weight:24px; color: gray; ">duración aprox. {{dato.duracion}}</h6>
+                                        {{dato.resumen}}</div>
+                                    </div>
+                                </a>
+                            </div>
+                            {% empty %}
+                            <h5>No hay temas registrados aún.</h5>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>
+<br>
+{% endblock %}
+

@@ -1,0 +1,50 @@
+{% extends 'basel.html' %}
+{% block titulo %}Registro - {% endblock %}
+
+{% block contenido %}
+<style>
+.page-header {
+    color: rgb(74,74,76);
+
+}
+.login{
+	background-color: #f7f7f7;
+	margin: auto;
+	max-width: 700px;
+	padding: 15px;
+
+}
+table{
+	margin: auto;
+	max-width: 600px;
+	padding: 0;
+}
+</style>
+<div class="page-header text-center">
+	<h1>Crea tu cuenta</h1>
+	<h4>Encuentra ducumentos para ti.</h4>
+	<br>
+	<div class="pager">
+		<div class="login">
+			<form role="form" class="form-group" method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
+				<table border=0>
+				{% for field in formulario %}
+				 <tr><td></td><td style="color:red;"> {{ field.errors }}</td></tr>
+				<tr><td class="text-right">{{field.label_tag}}<br><br></td><td>{{field}}<br><br></td>{% if field.help_text %}<td><span class="glyphicon glyphicon-question-sign" style="color:gray;"  title="{{field.help_text}}" aria-hidden="true"></span>{% endif %}</td></tr>
+				{% endfor %}
+				</table>
+				<table>
+					<!-- {{formulariob.as_table}} -->
+					{% for field in formulariob %}
+					 <tr><td></td><td style="color:red;"> {{ field.errors }}</td></tr>
+					<tr><td class="text-right">{{field.label_tag}}<br><br></td><td>{{field}}<br><br></td>{% if field.help_text %}<td><span class="glyphicon glyphicon-question-sign" style="color:gray;"  title="{{field.help_text}}" aria-hidden="true"></span>{% endif %}</td></tr>
+					{% endfor %}
+				</table>
+				<p class="text-left">Todos los campos son obligatorios</p>
+				<p><input type='submit' value='Registrar' class="btn btn-success btn-block"/></p>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

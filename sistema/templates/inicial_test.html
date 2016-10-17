@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% block titulo %}Test - {% endblock %}
+
+{% block contenido %}
+<style>
+
+.jumbotron {
+    background-color: white;
+    margin: 0 0 5px 0;
+    
+}
+.cuerpo{
+    padding:0;
+    margin:auto;
+}
+.block{
+    background-color:rgba(88, 147, 197, 0.7);
+    position: relative;
+    border-radius:4px;
+    padding-bottom: 48px;
+    padding-top: 20px;
+    color: rgba(255, 255, 255, 0.7)
+}
+.block-blanco{
+    position: relative;
+    background-color: white;
+    color: rgb(74,74,76);
+    border-radius:4px;
+    padding:20px 20px 40px 40px;
+}
+
+#sitemap
+{
+    position:fixed;
+    overflow-y:auto;
+    top: 50px;
+    left: 1%;
+    bottom: 2%;
+    padding-top:10px;
+    margin-bottom: 20px;
+    padding-bottom:15px;
+    display:none;
+}
+.pregunta{
+    list-style: outside;
+}
+
+ul
+{list-style:none}
+
+@media screen and (min-width: 768px)
+{
+#sitemap{
+    width: 24%;
+    height: 88%;
+    margin-bottom: 15px;
+    display: block;
+}
+}
+.sticky-absolute{
+    right: 0;
+    height: 100%;
+    padding-left: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+#sitemap a, #sitemap li{
+    color: black;
+    font-family: Helvetica, sans-serif;
+
+}
+
+#sitemap a:link{
+    text-decoration: none;
+}
+
+
+
+</style>
+
+<div class="container-fluid cuerpo">
+    <div class="row cuerpo">
+        <div class= "col-xs-0 col-sm-3 col-md-3 col-lg-3" style="margin:0; padding:0 0 0 1%;">
+            <div class="sticky-absolute center-block" id="sitemap">
+                <div style="border-radius: 5px; border: solid 1px #e1e8ed; background-color: white; padding:15px; line-height:16px; font-family: Arial, sans-serif; color: #292f33; font-size: 14px; margin:auto;" class="row">
+                    <ul style="padding-left:20px;">
+                        <li>
+                            <h3><a href="#inicio"> Test de VARK</a></h3>
+                            <ul><h4><a href="#Instruciones"> Instruciones</a></h4></ul>
+                            <ol>
+                                {% for field in formulario %}
+                                    <a href="#P{{forloop.counter0}}"><h5><strong>Pregunta {{forloop.counter}}:</strong></h5> <h6>{{field.label}}</h6></a>
+                                {% endfor %}
+                            </ol>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <A name="inicio"></A>
+        <div class= "col-xs-12 col-sm-9 col-md-9 col-lg-9">
+            <br>
+            <div style="background-color:rgb(87, 80, 68); color:white;" class="jumbotron text-center ">
+                <div class="row">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="display:inline-block">
+                        <img src='/static/imagenes/visual.png' alt="{{tema.nombre}}" class="img-circle center-block" style="display:inline-block; height:50px;vertical-align:middle;">
+                        <img src='/static/imagenes/auditivo.png' alt="{{tema.nombre}}" class="img-circle center-block" style="display:inline-block; height:50px;vertical-align:middle;">
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="display:inline-block">
+                        <h2 style="color:#3598dc;">Test VARK</h2>
+                        <h5>Instrumento para identificar tus estilos de aprendizaje y conocer tus preferencias para trabajar con información.</h5>
+                         <A name="Instruciones"></A>
+                        <h6>Modelo VARK © 1992 Neil Fleming y Collen Mills.</h6>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="display:inline-block">
+                        <img src='/static/imagenes/lec.jpg' alt="{{tema.nombre}}" class="img-circle center-block" style="display:inline-block; height:50px;vertical-align:middle;">
+                        <img src='/static/imagenes/kine.png' alt="{{tema.nombre}}" class="img-circle center-block" style="display:inline-block; height:50px;vertical-align:middle;">
+                    </div>
+                </div>
+            </div>
+            <div class="block-blanco">
+                <div class="container-fluid block-blanco">
+                    <div>
+                        <h3 style="color:#3598dc;">Instrucciones</h3>
+                        <li  class="text-left"><h5>Marque las respuestas que mejor expliquen su preferencia.<h5></li>
+                        <li  class="text-left"><h5>Puede seleccionar <strong>más de una respuesta a una pregunta</strong> si una sola no encaja con su percepción.</h5></li>
+                        <li class="text-left"><h5>Deje en blanco toda pregunta que no se apliqué a sus preferencias.</h5></li>
+                    </div>
+                    <A name="P0"></A>
+                    <br>
+                    <h3 class="text-center" style="color:#3598dc;">Inicio del test</h3>
+                    <div class="row" style="padding-top:40px;">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom= 20px;">
+                             <form role="form" class="form-group" method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
+                                <ol class="test-list">
+                                    {% for field in formulario %}
+                                    {{ formulario.field.errors }}
+                                    <li>
+                                        <A name="P{{forloop.counter}}"></A>
+                                        <h4>{{field.label_tag}}</h4>
+                                        <h5>{{field}}</h5>
+                                    </li>
+                                    <br>
+                                    {% endfor %}
+                                    <p class="text-center"><input type='submit' value='Procesar Test' class="btn btn-success"/></p>
+                                </ol>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    
+</div>
+    
+{% endblock %}

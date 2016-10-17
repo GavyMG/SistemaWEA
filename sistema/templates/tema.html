@@ -1,0 +1,402 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Tema {{tema.posicion}} - {% endblock %}
+
+{% block encabezado %} 
+<style>
+.jumbotron{
+    background-color: white;
+    margin: 0 0 5px 0;
+}
+.cuerpo{
+    padding:0;
+    margin:auto;
+}
+.panel-footer {
+    width: 80%;
+    background-color: white;
+    color: rgb(16,16,16);
+}
+.panel-footer:hover {
+    background-color: rgba(66, 133, 244, 0.9);
+    color: rgba(255, 255, 204, 1);
+}
+
+.block{
+    background-color:rgba(88, 147, 197, 0.7);
+    position: relative;
+    border-radius:4px;
+    padding-bottom: 48px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+a:link{
+    text-decoration: none;
+}
+
+.Pager{
+    color: white;
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    padding-top: 3%;
+}
+
+.visible{
+    position: fixed;
+    padding: auto;
+    max-width: 15%;
+    top: 15%;
+    right: 0.5%;
+}
+#sitemap
+{
+    display:none;
+}
+
+@media screen and (min-width: 768px)
+{
+#sitemap{
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+}
+.sticky-absolute{
+    right: 0;
+    left: 0;
+    width: 100%;
+    padding: 0px;
+}
+
+#sitemap a, #sitemap li{
+    color: black;
+    font-family: Helvetica, sans-serif;
+
+}
+
+#sitemap a:link{
+    text-decoration: none;
+}
+
+
+.fila:hover {
+    background-color: rgba(55, 55, 55, 0.1);
+    color: rgba(255, 255, 204, 1);   
+}
+
+.over{
+    overflow-y: hidden; 
+}
+
+.over:hover{
+    overflow-y: auto; 
+}
+</style>
+{% endblock %}
+
+{% block contenido %}
+<div class="container-fluid cuerpo">
+    <div class="row cuerpo"></div>
+        <div class= "col-xs-0 col-sm-3 col-md-3 col-lg-3 " style="margin:0; padding:0 0 0 1%;">
+            <div class="sticky-absolute" id="sitemap">
+                <br>
+                {% if user.is_authenticated %}
+                <div style="border-radius: 5px; border: solid 1px #e1e8ed; background-color: white; padding:15px; line-height:16px; font-family: Arial, sans-serif; color: #292f33; font-size: 14px; margin:auto;" class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                        <h3 title="Estilos de aprendizaje: modelo VARK" style="color: #66757f; font-size:18px; line-height:22px; font-weight:300; margin:auto;">Estilos de aprendizaje</h3>
+                    </div>
+                    <br>
+                    <div style=" display:inline-block; padding: 5px;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+                        <h6 title="Visual" style="margin:auto;"><img src='/static/imagenes/visual.png' alt="visual" class="img-responsive img-circle center-block peque"></h6>
+                        <h5 style="font-weight:bold; color: green; margin:auto;">{{perfil.visual}}</h5>
+                        <h6 style="font-size:13px; font-weight:bold; color: gray; margin:auto">Visual</h6>
+                    </div>
+                    <div style=" display:inline-block;  padding: 5px;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+                        <h6 title="Auditivo" style="margin:auto;"><img src='/static/imagenes/auditivo.png' alt="auditivo" class="img-responsive img-circle center-block peque"></h6>
+                        <h5 style="font-weight:bold; color: green; margin:auto;">{{perfil.auditivo}}</h5>
+                        <h6 style="font-size:13px; font-weight:bold; color: gray; margin:auto">Auditivo</h6>
+                    </div>
+                    <div style=" display:inline-block; padding: 5px;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+                        <h6 title="Lectura-Escritura" style="margin:auto;"><img src='/static/imagenes/lec.jpg' alt="Lectura-Escritura" class="img-responsive img-circle center-block peque"></h6>
+                        <h5 style="font-weight:bold; color: green; margin:auto;">{{perfil.lectura}}</h5>
+                        <h6 style="font-size:13px; font-weight:bold; color: gray; margin:auto">Lectura-E</h6>
+                    </div>
+                    <div style=" display:inline-block; padding: 5px;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+                        <h6 title="Kinestésico" style="margin:auto;"><img src='/static/imagenes/kine.png' alt="kinestesico" class="img-responsive img-circle center-block peque"></h6>
+                        <h5 style="font-weight:bold; color: green; margin:auto;">{{perfil.kinestesico}}</h5>
+                        <h6 style="font-size:13px; font-weight:bold; color: gray; margin:auto">Kinestésico</h6>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="over" style="border-radius: 5px; border: solid 1px #e1e8ed; background-color: white; padding:15px; line-height:16px; font-family: Arial, sans-serif; color: #292f33; font-size: 14px; margin-top: 8px; max-height:150px;">
+                    <div>
+                        <h3 title="Temas activos" style="color: #66757f; font-size:18px; line-height:22px; font-weight:300; margin:auto;">Temas activos</h3>
+                        <br>
+                    </div>
+                    <div style="color:#8899a6; opacity:1; font-size:12px;">
+                        {% if plan %}
+                            {% for p in plan %}
+                            <div class="fila">
+                            <a href="/tema/{{p.id}}" style="background: transparent; display:inline-block;"><img src='{{MEDIA_URL}}{{p.imagen}}' alt="{{tema.nombre}}" class="img-rounded" style="width:48px;height:48px;"></a>
+                            <a href="/tema/{{p.id}}"><div style="display:inline-block; vertical-align:middle;"><b style="font-size:13px; font-weight:bold; color: #292f33; ">{{p}}</b><br>
+                            <b><span style="color:gray;">{{p.duracion}}</span></b></a>
+                            </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                        <h6>No hay temas activos</h6>
+                        {% endif %}
+                     </div>
+                </div>
+                <div  class="over" style="border-radius: 5px; border: solid 1px #e1e8ed; background-color: white; padding:10px; line-height:16px; font-family: Arial, sans-serif; color: #292f33; font-size: 14px; margin-top: 8px; max-height:300px;">
+                    <div>
+                        <h3 title="Documentos de mejor Ranking en tema {{tema}}" style="color: #66757f; font-size:18px; line-height:22px; font-weight:300; margin:auto;">Mejor Ranking en tema actual</h3>
+                        <br>
+                    </div>
+                    <div style="color:#8899a6; opacity:1; font-size:12px;">
+                        {% for doc in documentos %}
+                        <div class="fila">
+                        <a href="/doc/{{doc.id}}" style="background: transparent; display:inline-block;">
+                            {% if doc.tipo_doc = 'video' %}
+                                <strong><h4 style="width:30px;height:30px; color: green; margin:auto;"><span class="glyphicon glyphicon-film" aria-hidden="true"></h4></strong>
+                            {% elif doc.tipo_doc = 'audio' %}
+                                <strong><h4 style="width:30px;height:30px; color: blue; margin:auto;"><span class="glyphicon glyphicon-music" aria-hidden="true"></h4></strong>
+                            {% else %}
+                                <strong><h4 style="width:30px;height:30px; color: orange; margin:auto;"><span class="glyphicon glyphicon-file" aria-hidden="true"></h4></strong>
+                            {% endif %}
+                        </a>
+                        <a href="/doc/{{doc.id}}"><div style="display:inline-block; vertical-align:middle;width:70%;"><b style="font-size:13px; font-weight:bold; color: #292f33; ">{{doc}}</b><br>
+                        <b><span style="color:gray;">{{doc.fecha|date}}</span></b></a>
+                        </div>
+                        <a href="/doc/{{doc.id}}"><div style="display:inline-block; vertical-align:middle;width:10%;">{{doc.puntuacion}}<strong><h4 style="width:30px;height:30px; color: yellow; margin:auto;"><span class="glyphicon glyphicon-star" aria-hidden="true"></h4></strong></div></a>
+                        </div>
+                        {% endfor %}
+                     </div>
+                </div>
+            </div>
+        </div>
+        <div class= "col-xs-12 col-sm-9 col-md-9 col-lg-9">
+            <br>
+            <div class="jumbotron text-center">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="display:inline-block">
+                        <img src='{{MEDIA_URL}}{{tema.imagen}}' alt="{{tema.nombre}}" class="img-rounded center-block" style="width:150px;height:150px; vertical-align:middle;">
+                        <h5 style="font-size:18px; line-height:18px; font-weight:300; color:gray;">duración aprox. {{tema.duracion}}</h5>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" style="display:inline-block">
+                        <h2 class="text-center">{{tema.nombre}}</h2>
+                        <h4>{{tema.resumen}}</h4>
+                        <h6 style="color:gray;">{{ndocumentos}} documentos en total.<span class="glyphicon glyphicon-file" style="color: orange;" aria-hidden="true"><span class="glyphicon glyphicon-film" style="color: green;" aria-hidden="true"><span class="glyphicon glyphicon-music" style="color: blue;" aria-hidden="true"></h6>
+                        {% if tema.activo %}
+                            <h5 style="color:green;"> Activo: {{tema.inicio|date:"D d M, Y"}} - {{tema.fin|date:"D d M, Y"}}</h5> 
+                        {% else %}
+                            <h5 style="color:gray"> Status No activo: {{tema.inicio|date:"D d M, Y"}} - {{tema.fin|date:"D d M, Y"}} </h5>
+                        {% endif %}
+                        {% if tema.activo %} 
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="display:inline-block">
+                                {% if anterior %}
+                                    <a title="Ir a anterior tema activo." href="/tema/{{ anterior.id }}"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> anterior</a>
+                                {% endif %}
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="display:inline-block">
+                                {% if siguiente %}
+                                    <a title="Ir a siguiente tema activo." href="/tema/{{ siguiente.id }}">siguiente <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div style="padding: 20px;" class="block">
+                <div >
+                    <h2 style="color:white;">Documentos.</h2>
+                    <br>
+                </div>
+              {% if user.is_authenticated %}
+              <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">De tus estilos de aprendizaje</a></li>
+                <li><a data-toggle="tab" href="#menu1">Colaborativo</a></li>
+                <li><a data-toggle="tab" href="#menu2">Otros</a></li>
+                <li><a data-toggle="tab" href="#menu3">Todos</a></li>
+              </ul>
+              {% else %}
+              <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#menu3">Todos</a></li>
+              </ul>
+              {% endif %}
+              <div style= "background-color:white; color:black;" class="tab-content">
+                {% if user.is_authenticated %}
+                <div id="home" class="tab-pane fade in active">
+                {% else %}
+                <div id="home" class="tab-pane fade">
+                {% endif %}
+                    <div  class="over" style="border-radius: 5px; border: solid 1px #e1e8ed; background-color: white; padding:10px; line-height:16px; font-family: Arial, sans-serif; color: #292f33; font-size: 14px; margin-top: 8px;">
+                        <div>
+                            <h3 title="Documentos de tus estilos de aprendizaje" style="color: #66757f; font-size:18px; line-height:22px; font-weight:300; margin:auto;">Recomendados según tus estilos de aprendizaje</h3>
+                            <br>
+                        </div>
+                        <div style="color:#8899a6; opacity:1; font-size:12px;">
+                            {% for doc in yourdocumentos %}
+                            <a href="/doc/{{doc.id}}">
+                                <div class="fila">
+                                    <b style="background: transparent; display:inline-block;">
+                                        {% if doc.tipo_doc = 'video' %}
+                                            <strong><h4 style="width:30px;height:30px; color: green; margin:auto;"><span class="glyphicon glyphicon-film" aria-hidden="true"></h4></strong>
+                                        {% elif doc.tipo_doc = 'audio' %}
+                                            <strong><h4 style="width:30px;height:30px; color: blue; margin:auto;"><span class="glyphicon glyphicon-music" aria-hidden="true"></h4></strong>
+                                        {% else %}
+                                            <strong><h4 style="width:30px;height:30px; color: orange; margin:auto;"><span class="glyphicon glyphicon-file" aria-hidden="true"></h4></strong>
+                                        {% endif %}
+                                    </b>
+                                    <div style="display:inline-block; vertical-align:middle;width:50%;">
+                                        <b style="font-size:13px; font-weight:bold; color: #292f33; ">{{doc}}</b><br>
+                                        <b><span style="color:gray;">{{doc.fecha|date}}</span></b>
+                                    </div>
+                                    <div style="display:inline-block; vertical-align:middle;width:40%;"  class="text-right">
+                                        <div style="display:inline-block; font-size:13px; font-weight:bold; color:#292f33;" class="text-right">{{doc.puntuacion}}<strong><h4 style="width:30px;height:30px; color: yellow; margin:auto;display:inline-block;"><span class="glyphicon glyphicon-star" aria-hidden="true"></h4></strong>
+                                        </div>
+                                        <div style="display:inline-block; font-size:13px; font-weight:bold; color:#292f33;" class="text-right">{{doc.visto}}<strong><h4 style="width:30px;height:30px; color: cyan; margin:auto;display:inline-block;"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></h4></strong>
+                                        </div>
+                                        <div style="display:inline-block; font-size:13px; font-weight:bold; color:#292f33;" class="text-right">{{doc.temas.count}}<strong><h4 style="width:30px;height:30px; color: orange; margin:auto;display:inline-block;"><span class="glyphicon glyphicon-book" aria-hidden="true"></h4></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            {% empty %}
+                                <h5 style="color: gray;">No hay documentos.</h5>
+                            {% endfor %}
+                         </div>
+                    </div>
+                </div>
+              <div id="menu1" class="tab-pane fade">
+                  <div  class="over" style="border-radius: 5px; border: solid 1px #e1e8ed; background-color: white; padding:10px; line-height:16px; font-family: Arial, sans-serif; color: #292f33; font-size: 14px; margin-top: 8px;">
+                        <div>
+                            <h3 title="Documentos recomendados de forma colaborativa" style="color: #66757f; font-size:18px; line-height:22px; font-weight:300; margin:auto;">Recomendados según tus estilos de aprendizaje en forma colaborativa</h3>
+                            <br>
+                        </div>
+                        <div style="color:#8899a6; opacity:1; font-size:12px;">
+                            {% for doc in Recomendar %}
+                            <a href="/doc/{{doc.id}}">
+                                <div class="fila">
+                                    <b style="background: transparent; display:inline-block;">
+                                        {% if doc.tipo_doc = 'video' %}
+                                            <strong><h4 style="width:30px;height:30px; color: green; margin:auto;"><span class="glyphicon glyphicon-film" aria-hidden="true"></h4></strong>
+                                        {% elif doc.tipo_doc = 'audio' %}
+                                            <strong><h4 style="width:30px;height:30px; color: blue; margin:auto;"><span class="glyphicon glyphicon-music" aria-hidden="true"></h4></strong>
+                                        {% else %}
+                                            <strong><h4 style="width:30px;height:30px; color: orange; margin:auto;"><span class="glyphicon glyphicon-file" aria-hidden="true"></h4></strong>
+                                        {% endif %}
+                                    </b>
+                                    <div style="display:inline-block; vertical-align:middle;width:50%;">
+                                        <b style="font-size:13px; font-weight:bold; color: #292f33; ">{{doc}}</b><br>
+                                        <b><span style="color:gray;">{{doc.fecha|date}}</span></b>
+                                    </div>
+                                    <div style="display:inline-block; vertical-align:middle;width:40%;"  class="text-right">
+                                        <div style="display:inline-block; font-size:13px; font-weight:bold; color:#292f33;" class="text-right">{{doc.puntuacion}}<strong><h4 style="width:30px;height:30px; color: yellow; margin:auto;display:inline-block;"><span class="glyphicon glyphicon-star" aria-hidden="true"></h4></strong>
+                                        </div>
+                                        <div style="display:inline-block; font-size:13px; font-weight:bold; color:#292f33;" class="text-right">{{doc.visto}}<strong><h4 style="width:30px;height:30px; color: cyan; margin:auto;display:inline-block;"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></h4></strong>
+                                        </div>
+                                        <div style="display:inline-block; font-size:13px; font-weight:bold; color:#292f33;" class="text-right">{{doc.temas.count}}<strong><h4 style="width:30px;height:30px; color: orange; margin:auto;display:inline-block;"><span class="glyphicon glyphicon-book" aria-hidden="true"></h4></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            {% empty %}
+                                <h5 style="color: gray;">No hay documentos.</h5>
+                            {% endfor %}
+                         </div>
+                    </div>
+              </div>
+                <div id="menu2" class="tab-pane fade">
+                  <div  class="over" style="border-radius: 5px; border: solid 1px #e1e8ed; background-color: white; padding:10px; line-height:16px; font-family: Arial, sans-serif; color: #292f33; font-size: 14px; margin-top: 8px;">
+                        <div>
+                            <h3 title="Otros documentos" style="color: #66757f; font-size:18px; line-height:22px; font-weight:300; margin:auto;">Otros documentos</h3>
+                            <br>
+                        </div>
+                        <div style="color:#8899a6; opacity:1; font-size:12px;">
+                            {% for doc in otros %}
+                            <a href="/doc/{{doc.id}}">
+                                <div class="fila">
+                                    <b style="background: transparent; display:inline-block;">
+                                        {% if doc.tipo_doc = 'video' %}
+                                            <strong><h4 style="width:30px;height:30px; color: green; margin:auto;"><span class="glyphicon glyphicon-film" aria-hidden="true"></h4></strong>
+                                        {% elif doc.tipo_doc = 'audio' %}
+                                            <strong><h4 style="width:30px;height:30px; color: blue; margin:auto;"><span class="glyphicon glyphicon-music" aria-hidden="true"></h4></strong>
+                                        {% else %}
+                                            <strong><h4 style="width:30px;height:30px; color: orange; margin:auto;"><span class="glyphicon glyphicon-file" aria-hidden="true"></h4></strong>
+                                        {% endif %}
+                                    </b>
+                                    <div style="display:inline-block; vertical-align:middle;width:50%;">
+                                        <b style="font-size:13px; font-weight:bold; color: #292f33; ">{{doc}}</b><br>
+                                        <b><span style="color:gray;">{{doc.fecha|date}}</span></b>
+                                    </div>
+                                    <div style="display:inline-block; vertical-align:middle;width:40%;"  class="text-right">
+                                        <div style="display:inline-block; font-size:13px; font-weight:bold; color:#292f33;" class="text-right">{{doc.puntuacion}}<strong><h4 style="width:30px;height:30px; color: yellow; margin:auto;display:inline-block;"><span class="glyphicon glyphicon-star" aria-hidden="true"></h4></strong>
+                                        </div>
+                                        <div style="display:inline-block; font-size:13px; font-weight:bold; color:#292f33;" class="text-right">{{doc.visto}}<strong><h4 style="width:30px;height:30px; color: cyan; margin:auto;display:inline-block;"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></h4></strong>
+                                        </div>
+                                        <div style="display:inline-block; font-size:13px; font-weight:bold; color:#292f33;" class="text-right">{{doc.temas.count}}<strong><h4 style="width:30px;height:30px; color: orange; margin:auto;display:inline-block;"><span class="glyphicon glyphicon-book" aria-hidden="true"></h4></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            {% empty %}
+                                <h5 style="color: gray;">No hay documentos.</h5>
+                            {% endfor %}
+                         </div>
+                    </div>
+                </div>
+                {% if user.is_authenticated %}
+                <div id="menu3" class="tab-pane fade">
+                {% else %}
+                <div id="menu3" class="tab-pane fade in active">
+                {% endif %}
+                  <div  class="over" style="border-radius: 5px; border: solid 1px #e1e8ed; background-color: white; padding:10px; line-height:16px; font-family: Arial, sans-serif; color: #292f33; font-size: 14px; margin-top: 8px;">
+                        <div>
+                            <h3 title="Todos los documentos" style="color: #66757f; font-size:18px; line-height:22px; font-weight:300; margin:auto;">Todos los documentos</h3>
+                            <br>
+                        </div>
+                        <div style="color:#8899a6; opacity:1; font-size:12px;">
+                            {% for doc in todos %}
+                            <a href="/doc/{{doc.id}}">
+                                <div class="fila">
+                                    <b style="background: transparent; display:inline-block;">
+                                        {% if doc.tipo_doc = 'video' %}
+                                            <strong><h4 style="width:30px;height:30px; color: green; margin:auto;"><span class="glyphicon glyphicon-film" aria-hidden="true"></h4></strong>
+                                        {% elif doc.tipo_doc = 'audio' %}
+                                            <strong><h4 style="width:30px;height:30px; color: blue; margin:auto;"><span class="glyphicon glyphicon-music" aria-hidden="true"></h4></strong>
+                                        {% else %}
+                                            <strong><h4 style="width:30px;height:30px; color: orange; margin:auto;"><span class="glyphicon glyphicon-file" aria-hidden="true"></h4></strong>
+                                        {% endif %}
+                                    </b>
+                                    <div style="display:inline-block; vertical-align:middle;width:50%;">
+                                        <b style="font-size:13px; font-weight:bold; color: #292f33; ">{{doc}}</b><br>
+                                        <b><span style="color:gray;">{{doc.fecha|date}}</span></b>
+                                    </div>
+                                    <div style="display:inline-block; vertical-align:middle;width:40%;"  class="text-right">
+                                        <div style="display:inline-block; font-size:13px; font-weight:bold; color:#292f33;" class="text-right">{{doc.puntuacion}}<strong><h4 style="width:30px;height:30px; color: yellow; margin:auto;display:inline-block;"><span class="glyphicon glyphicon-star" aria-hidden="true"></h4></strong>
+                                        </div>
+                                        <div style="display:inline-block; font-size:13px; font-weight:bold; color:#292f33;" class="text-right">{{doc.visto}}<strong><h4 style="width:30px;height:30px; color: cyan; margin:auto;display:inline-block;"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></h4></strong>
+                                        </div>
+                                        <div style="display:inline-block; font-size:13px; font-weight:bold; color:#292f33;" class="text-right">{{doc.temas.count}}<strong><h4 style="width:30px;height:30px; color: orange; margin:auto;display:inline-block;"><span class="glyphicon glyphicon-book" aria-hidden="true"></h4></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            {% empty %}
+                                <h5 style="color: gray;">No hay documentos.</h5>
+                            {% endfor %}
+                         </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+            
+
+{% endblock %}

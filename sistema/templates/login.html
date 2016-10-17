@@ -1,0 +1,60 @@
+{% extends 'basel.html' %}
+{% block titulo %}Acceso - {% endblock %}
+
+{% block contenido %}
+<style>
+.page-header {
+    color: rgb(74,74,76);
+}
+.login{
+	background-color: #f7f7f7;
+	margin: auto;
+	max-width: 450px;
+	padding: 40px 20px 20px 20px
+
+}
+table{
+	margin: auto;
+	width: 400px;
+	padding: 0;
+}
+
+
+</style>
+{% if user.is_authenticated %}
+	<div class="page-header text-center" style="position: absolute;height: 74%;width: 100%;">
+		<h1>Ya has accedido a tu cuenta</h1>
+		<h4>Si deseas acceder a otra cuenta debes cerrar sesión</h4>
+		<br>
+		<div class="pager">
+			<br><br><a class="btn btn-lg btn-warning" href="/logout/" ><h3>Cerrar Sesión</h3></a>
+		</div>
+	</div>
+{% else %}
+	<div class="page-header text-center" style="position: absolute; width: 100%;">
+		<h1>Accede a tu cuenta</h1>
+		<h4>Encuentra ducumentos para ti.</h4>
+		<br>
+		<div class="pager">
+			<div class="login">
+				<form role="form" class="form-group" method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
+					<table border=0>
+					{% for field in formulario %}
+					 <tr>
+					 	<td></td><td>{{field.errors }}</td></tr>
+					 <tr>
+					 	<td class="text-right">{{field.label_tag}}<br><br></td><td>{{field}}<br><br></td>
+					 </tr>
+					{% endfor %}
+					</table>
+					{% if error %}
+						<p style="color:red;">Ingrese un usuario y contraseña valido.</p>
+					{% endif %}
+					<p><input type='submit' value='Acceder' class="btn btn-primary btn-block"/></p>
+				</form>
+			</div>
+			<br><br><a href="/registro"><h3>Crear una cuenta</h3></a>
+		</div>
+	</div>
+{% endif %}
+{% endblock %}

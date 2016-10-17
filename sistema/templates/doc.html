@@ -1,0 +1,422 @@
+{% extends 'base.html' %}
+{% block titulo %}{{doc.nombre}} - {% endblock %}
+
+{% block contenido %}
+<style>
+.jumbotron{
+    background-color: white;
+    margin: 0 0 5px 0;
+}
+.cuerpo{
+    padding:0;
+    margin:auto;
+}
+
+.block{
+    background-color:rgba(88, 147, 197, 0.7);
+    position: relative;
+    border-radius:4px;
+    padding-bottom: 48px;
+    color: rgba(255, 255, 255, 0.7)
+}
+
+.ec-stars-wrapper {
+    /* Espacio entre los inline-block (los hijos, los `a`) 
+       http://ksesocss.blogspot.com/2012/03/display-inline-block-y-sus-empeno-en.html */
+    font-size: 0;
+    /* Podríamos quitarlo, 
+        pero de esta manera (siempre que no le demos padding), 
+        sólo aplicará la regla .ec-stars-wrapper:hover a cuando
+        también se esté haciendo hover a alguna estrella */
+    display: inline-block;
+}
+.ec-stars-wrapper a {
+    text-decoration: none;
+    display: inline-block;
+    /* Volver a dar tamaño al texto */
+    font-size: 32px;
+    font-size: 2rem;
+    
+    color: #888;
+}
+
+.ec-stars-wrapper:hover a {
+    color: yellow;
+}
+/*
+ * El selector de hijo, es necesario para aumentar la especifidad
+ */
+.ec-stars-wrapper > a:hover ~ a {
+    color: #888;
+}
+
+.Pager{
+    color: black;
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    padding-top: 3%;
+    background-color: white;
+}
+
+.documentos{
+    width: 100%;
+}
+#sitemap
+{
+    display:none;
+}
+
+@media screen and (min-width: 768px)
+{
+#sitemap{
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+}
+.sticky-absolute{
+    right: 0;
+    left: 0;
+    width: 100%;
+    padding: 0px;
+}
+
+#sitemap a, #sitemap li{
+    color: black;
+    font-family: Helvetica, sans-serif;
+
+}
+
+#sitemap a:link{
+    text-decoration: none;
+}
+
+
+.fila:hover {
+    background-color: rgba(55, 55, 55, 0.1);
+    color: rgba(255, 255, 204, 1);   
+}
+
+.over{
+    overflow-y: hidden; 
+}
+
+.over:hover{
+    overflow-y: auto; 
+}
+</style>
+<div class="container-fluid cuerpo">
+    <div class="row cuerpo"></div>
+            <div class= "col-xs-0 col-sm-3 col-md-3 col-lg-3 " style="margin:0; padding:0 0 0 1%;">
+            <div class="sticky-absolute" id="sitemap">
+                <br>
+                {% if user.is_authenticated %}
+                <div style="border-radius: 5px; border: solid 1px #e1e8ed; background-color: white; padding:15px; line-height:16px; font-family: Arial, sans-serif; color: #292f33; font-size: 14px; margin:auto;" class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                        <h3 title="Estilos de aprendizaje: modelo VARK" style="color: #66757f; font-size:18px; line-height:22px; font-weight:300; margin:auto;">Estilos de aprendizaje</h3>
+                    </div>
+                    <br>
+                    <div style=" display:inline-block; padding: 5px;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+                        <h6 title="Visual" style="margin:auto;"><img src='/static/imagenes/visual.png' alt="visual" class="img-responsive img-circle center-block peque"></h6>
+                        <h5 style="font-weight:bold; color: green; margin:auto;">{{perfil.visual}}</h5>
+                        <h6 style="font-size:13px; font-weight:bold; color: gray; margin:auto">Visual</h6>
+                    </div>
+                    <div style=" display:inline-block;  padding: 5px;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+                        <h6 title="Auditivo" style="margin:auto;"><img src='/static/imagenes/auditivo.png' alt="auditivo" class="img-responsive img-circle center-block peque"></h6>
+                        <h5 style="font-weight:bold; color: green; margin:auto;">{{perfil.auditivo}}</h5>
+                        <h6 style="font-size:13px; font-weight:bold; color: gray; margin:auto">Auditivo</h6>
+                    </div>
+                    <div style=" display:inline-block; padding: 5px;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+                        <h6 title="Lectura-Escritura" style="margin:auto;"><img src='/static/imagenes/lec.jpg' alt="Lectura-Escritura" class="img-responsive img-circle center-block peque"></h6>
+                        <h5 style="font-weight:bold; color: green; margin:auto;">{{perfil.lectura}}</h5>
+                        <h6 style="font-size:13px; font-weight:bold; color: gray; margin:auto">Lectura-E</h6>
+                    </div>
+                    <div style=" display:inline-block; padding: 5px;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+                        <h6 title="Kinestésico" style="margin:auto;"><img src='/static/imagenes/kine.png' alt="kinestesico" class="img-responsive img-circle center-block peque"></h6>
+                        <h5 style="font-weight:bold; color: green; margin:auto;">{{perfil.kinestesico}}</h5>
+                        <h6 style="font-size:13px; font-weight:bold; color: gray; margin:auto">Kinestésico</h6>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="over" style="border-radius: 5px; border: solid 1px #e1e8ed; background-color: white; padding:15px; line-height:16px; font-family: Arial, sans-serif; color: #292f33; font-size: 14px; margin-top: 8px; max-height:150px;">
+                    <div>
+                        <h3 title="Temas activos" style="color: #66757f; font-size:18px; line-height:22px; font-weight:300; margin:auto;">Temas activos</h3>
+                        <br>
+                    </div>
+                    <div style="color:#8899a6; opacity:1; font-size:12px;">
+                        {% for p in plan %}
+                        <div class="fila">
+                        <a href="/tema/{{p.id}}" style="background: transparent; display:inline-block;"><img src='{{MEDIA_URL}}{{p.imagen}}' alt="{{tema.nombre}}" class="img-rounded" style="width:48px;height:48px;"></a>
+                        <a href="/tema/{{p.id}}"><div style="display:inline-block; vertical-align:middle;"><b style="font-size:13px; font-weight:bold; color: #292f33; ">{{p}}</b><br>
+                        <b><span style="color:gray;">{{p.duracion}}</span></b>
+                        </div></a>
+                        </div>
+                        {% empty %}
+                        <h6>No hay temas activos</h6>
+                        {% endfor %}
+                     </div>
+                </div>
+                <div  class="over" style="border-radius: 5px; border: solid 1px #e1e8ed; background-color: white; padding:10px; line-height:16px; font-family: Arial, sans-serif; color: #292f33; font-size: 14px; margin-top: 8px; max-height:300px;">
+                    <div>
+                        <h3 title="Documentos de mejor Ranking" style="color: #66757f; font-size:18px; line-height:22px; font-weight:300; margin:auto;">Documentos de mejor Ranking</h3>
+                        <br>
+                    </div>
+                    <div style="color:#8899a6; opacity:1; font-size:12px;">
+                        {% for doc in documentos %}
+                        <div class="fila">
+                        <a href="/doc/{{doc.id}}" style="background: transparent; display:inline-block;">
+                            {% if doc.tipo_doc = 'video' %}
+                                <strong><h4 style="width:30px;height:30px; color: green; margin:auto;"><span class="glyphicon glyphicon-film" aria-hidden="true"></h4></strong>
+                            {% elif doc.tipo_doc = 'audio' %}
+                                <strong><h4 style="width:30px;height:30px; color: blue; margin:auto;"><span class="glyphicon glyphicon-music" aria-hidden="true"></h4></strong>
+                            {% else %}
+                                <strong><h4 style="width:30px;height:30px; color: orange; margin:auto;"><span class="glyphicon glyphicon-file" aria-hidden="true"></h4></strong>
+                            {% endif %}
+                        </a>
+                        <a href="/doc/{{doc.id}}"><div style="display:inline-block; vertical-align:middle;width:70%;"><b style="font-size:13px; font-weight:bold; color: #292f33; ">{{doc}}</b><br>
+                        <b><span style="color:gray;">{{doc.fecha|date}}</span></b></a>
+                        </div>
+                        <a href="/doc/{{doc.id}}"><div style="display:inline-block; vertical-align:middle;width:10%;">{{doc.puntuacion}}<strong><h4 style="width:30px;height:30px; color: yellow; margin:auto;"><span class="glyphicon glyphicon-star" aria-hidden="true"></h4></strong></div></a>
+                        </div>
+                        {% endfor %}
+                     </div>
+                </div>
+            </div>
+        </div>
+        <div class= "col-xs-12 col-sm-9 col-md-9 col-lg-9">
+            <br>
+            <div class="jumbotron text-left">
+                <div class="container-fluid text-center row ">
+                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+                        <div style="display: inline-block;">
+                            <a href="{{MEDIA_URL}}{{doc.documento}}" target="_blank" title="Ver documento en página completa">
+                            {% if doc.tipo_doc = 'video' %}
+                                <strong><h3 style="display: inline-block; color: green;"><span class="glyphicon glyphicon-film" aria-hidden="true"></h3></strong>
+                            {% else %}
+                                {% if doc.tipo_doc = 'audio' %}
+                                    <strong><h3 style="display: inline-block; color: blue;"><span class="glyphicon glyphicon-music" aria-hidden="true"></h3></strong>
+                                {% else %}
+                                    <strong><h3 style="display: inline-block; color: orange;"><span class="glyphicon glyphicon-file" aria-hidden="true"></h3></strong>
+                                {% endif %}
+                            {% endif %}
+                            <h3 style="display: inline-block;">{{doc.nombre}}</h3>
+                            <strong style="display: inline-block;vertical-align:super;" ><h5><span class="glyphicon glyphicon-new-window" aria-hidden="true"></h5></strong>
+                            </a>
+                            <br>
+                        </div>
+                        <br>
+                        {% if puntuacion %}
+                            <div class="text-center" style="magin:auto;">
+                                <div style="display:inline-block; vertical-align:middle;">
+                                {% if puntuacion.puntuacion = 1 %}
+                                <div style="display: inline-block;">
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                </div>
+                                {% elif puntuacion.puntuacion = 2 %}
+                                <div style="display: inline-block;">
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                </div>
+                                {% elif puntuacion.puntuacion = 3 %}
+                                <div style="display: inline-block;">
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                </div>
+                                {% elif puntuacion.puntuacion = 4 %}
+                                <div style="display: inline-block;">
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                </div>
+                                {% elif puntuacion.puntuacion = 5 %}
+                                <div style="display: inline-block;">
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                    <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                </div>
+                                {% endif %}
+                                <h6 style="margin:auto;">{{puntuacion.texto}}</h6>
+                                <b ><span style="color:gray;">{{puntuacion.fecha|date:"d M Y"}} a las {{ puntuacion.fecha|time:"H:i" }}</span></b>
+                                </div>
+                            </div>
+                            <p style="display: inline-block;">Cambiar valoración:</p>
+                        {% else %}
+                            <p style="display: inline-block;">Valorar:</p>
+                        {% endif %}
+                            <div class="ec-stars-wrapper" style="display: inline-block;">
+                                <a href="/puntuar/?valor=1&next={{ doc.id }}" data-value="1" title="No me gustó">&#9733;</a>
+                                <a href="/puntuar/?valor=2&next={{ doc.id }}" data-value="2" title="No tan bien">&#9733;</a>
+                                <a href="/puntuar/?valor=3&next={{ doc.id }}" data-value="3" title="Está bien">&#9733;</a>
+                                <a href="/puntuar/?valor=4&next={{ doc.id }}" data-value="4" title="Me gustó">&#9733;</a>
+                                <a href="/puntuar/?valor=5&next={{ doc.id }}" data-value="5" title="Me encantó">&#9733;</a>
+                            </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+                        <div style="display: inline-block;">
+                            <h3 style="display: inline-block;"><strong> {{doc.puntuacion}} </strong><strong style="color:yellow;"> <span class="glyphicon glyphicon-star" aria-hidden="true"></span></strong></h3>
+                            <h5 style="display: inline-block; color:gray;"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{reviews.count}} en total. </h5>
+                        </div>
+                        <div style="display: inline-block;">
+                            {% for p in reviews %}
+                                {% if forloop.counter < 5 %}
+                                    <h5 title="{{p.usuario__usuario__username}} {{p.puntuacion}} &#9733;" style="display: inline-block; color:white;"> <img src='{{MEDIA_URL}}{{p.usuario__imagen}}' alt='{{p.usuario__usuario__username}}' class="img-responsive img-circle peque" style="display: inline-block;"></h5>
+                                {% elif forloop.last %}
+                                <li class="dropdown" style="display: inline-block; color:white;">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-option-horizontal" title="ver todos" aria-hidden="true"></span></a>
+                                    <ul class="dropdown-menu">
+                                    {% for dato in reviews %}
+                                      {% if forloop.counter = 1 %}
+                                        <li><h5 title="{{dato.usuario__usuario__username}} {{dato.puntuacion}} &#9733;" style="display: inline-block; color:white;"> <img src='{{MEDIA_URL}}{{dato.usuario__imagen}}' alt='{{dato.usuario__usuario__username}}' class="img-responsive img-circle peque" style="display: inline-block;"> {{dato.usuario__usuario__username}} {{dato.puntuacion}} &#9733;</h5></li>
+                                      {% else %}
+                                        <li role="separator" class="divider"></li>
+                                        <li><h5 title="{{dato.usuario__usuario__username}} {{dato.puntuacion}} &#9733;" style="display: inline-block; color:white;"> <img src='{{MEDIA_URL}}{{dato.usuario__imagen}}' alt='{{dato.usuario__usuario__username}}' class="img-responsive img-circle peque" style="display: inline-block;"> {{dato.usuario__usuario__username}} {{dato.puntuacion}} &#9733;</h5></li>
+                                      {% endif %}
+                                    {% endfor %}
+                                    </ul>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <div style="display: inline-block;">
+                            <h5 style="display: inline-block; color:gray;"><span class="glyphicon glyphicon-book" aria-hidden="true">{{doc.ntemas}} tema{{doc.ntemas|pluralize}}</h5>
+                        </div>   
+                        <div style="display: inline-block;">
+                            <h5 style="display: inline-block; color:gray;"> <span class="glyphicon glyphicon-eye-open" style="color: green;" aria-hidden="true"></span>  {{doc.visto}} visualizaciones </h5>
+                        </div>
+                        <div style="display: inline-block;">
+                            <h5 style="display: inline-block; color:gray;"> <span class="glyphicon glyphicon-comment" style="color: orange;" aria-hidden="true"></span> {{comentarios.count}} comentarios</h5>
+                        </div>
+                        <div style="display: inline-block;">
+                            <h5 style="display: inline-block; color:gray;"> <span class="glyphicon glyphicon-stats" style="color: blue;" aria-hidden="true"></span> Interacciones totales {{interacciones}}</h5>
+                        </div><strong><a style="display: inline-block;vertical-align:super;" href="/interacciones/{{doc.id}}/" title="Ver interacciones."></a></strong>
+                    </div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="container row" style="width: 100%;">
+                    <div class="text-center col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="documentos">
+                            {% if doc.tipo_doc = 'video' %}
+                                <video style="width: 50%;" src='{{MEDIA_URL}}{{doc.documento}}' preload="none" controls></video>
+                            {% else %}
+                                {% if doc.tipo_doc = 'audio' %}
+                                    <audio style="width: 50%; height:200px; margin-bottom:150px;" src='{{MEDIA_URL}}{{doc.documento}}' preload="none" controls></audio>
+                                {% else %}
+                                    <iframe style="width: 50%; height:350px;" src='{{MEDIA_URL}}{{doc.documento}}'></iframe>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="block container Pager">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#home">Reviews</a></li>
+                        <li><a data-toggle="tab" href="#menu1">Comentarios</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active">
+                            <div class="text-left" style=" background-color: white; padding: 4%; border:none;">
+                                <a class="text-right" href="/opinar/{{doc.id}}/"><span class="glyphicon glyphicon-plus" style="color: blue;" aria-hidden="true"></span> Añadir review</a>
+                                <h4>Reviews</h4>
+                                <div style="display: inline-block; width:100%; background-color: rgb(240, 240, 240); padding: 10px; border-radius: 6px;">
+                                    {% for com in reviews %}
+                                        <div >
+                                            <img src='{{MEDIA_URL}}{{com.usuario__imagen}}' alt="{{perfil}}" class="img-circle" style="background: transparent; display:inline-block;width:48px;height:48px;">
+                                            <div style="display:inline-block; vertical-align:middle;"><b style="font-size:13px; font-weight:bold; color: #292f33; ">{{com.usuario__usuario__username}}</b><br>
+                                            {% if com.puntuacion = 1 %}
+                                            <div style="display: inline-block;">
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                            </div>
+                                            {% elif com.puntuacion = 2 %}
+                                            <div style="display: inline-block;">
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                            </div>
+                                            {% elif com.puntuacion = 3 %}
+                                            <div style="display: inline-block;">
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                            </div>
+                                            {% elif com.puntuacion = 4 %}
+                                            <div style="display: inline-block;">
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: gray;">&#9733;</h4>
+                                            </div>
+                                            {% elif com.puntuacion = 5 %}
+                                            <div style="display: inline-block;">
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                                <h4 style="display: inline-block; color: yellow;">&#9733;</h4>
+                                            </div>
+                                            {% endif %}
+                                            <p>{{com.texto}}</p>
+                                            <b><span style="color:gray;">{{com.fecha|date:"d M Y"}} a las {{ com.fecha|time:"H:i" }}</span></b>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    {% empty %}
+                                        <h5>No hay reviews.</h5> 
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div id="menu1" class="tab-pane fade">
+                            <div class="text-left" style=" background-color: white; padding: 4%; border:none;">
+                                <a class="text-right" href="/comentar/{{doc.id}}/"><span class="glyphicon glyphicon-plus" style="color: blue;" aria-hidden="true"></span> Añadir comentario</a>
+                                <h4>Comentarios</h4>
+                                <div style="display: inline-block; width:100%; background-color: rgb(240, 240, 240); padding: 10px; border-radius: 6px;">
+                                    {% for com in comentarios %}
+                                        <h5><img src='{{MEDIA_URL}}{{com.usuario__imagen}}' alt="imagen de perfil" class="img-responsive img-circle peque" style="display: inline-block;">
+                                        <strong style="display: inline-block; vertical-aling: super;">{{com.usuario__usuario__username}}: </strong><h5>
+                                        <p style="display: inline-block; border-radius: 6px; margin: -20px 0 0 5%; background-color:orange; padding: 10px 20px 10px 10px;">{{com.texto}} <span style="color:white; vertical-align:sub; font-size:10px;"> {{com.fecha|date:"d M Y"}} a las {{ com.fecha|time:"H:i" }}</span></p>
+                                        <br>
+                                    {% empty %}
+                                        <h5>No hay comentarios.</h5> 
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>    
+                    </div>    
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>
+<br>
+
+
+    
+{% endblock %}

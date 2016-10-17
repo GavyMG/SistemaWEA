@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block titulo %}{% endblock %}FACYT | IHC</title>
+    <link rel="stylesheet" href="{% static 'dist/bootstrap/css/bootstrap.min.css' %}">
+    <link rel='shortcut icon' href="{% static 'imagenes/iconoFACYT.png' %}">
+    {% block style_css %}{% endblock %}
+    <script src="{% static 'dist/jquery/jquery-1.11.3.min.js' %}"></script>
+    <script src="{% static 'dist/bootstrap/js/bootstrap.min.js' %}"></script>
+  </head>
+  <body>
+
+    <style>
+      .img-responsive {
+        width: 300px;
+        margin:auto;
+        padding-top: 20px;
+      }
+
+      footer {
+        position: relative;
+        margin-top: 0px; /* ponga en negativo el alto de su pie de página para nuestro    ejemplo usamos 63, usted debe remplazarlo según su diseño   */
+        margin-bottom: 0px;
+        clear:both;
+        width:100%;
+        background-color: black;
+        color: white;
+      }
+      
+    </style>
+    <header>
+      <div class="container-fluid">
+        <div class="nav-header">
+          <a class="logo" href="{% url 'index' %}"><img alt="Imagen responsive" src="{% static 'imagenes/logoIHC.png' %}" class="img-responsive"/></a>
+        </div>
+      </div>
+      
+      <hr>
+      {% block encabezado %}{% endblock %}
+    </header>	
+  <section class='contenido'>
+	{% block contenido %}{% endblock %}
+  </section>
+    <footer class="navbar-fixed-bottom">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7">
+            <p> Desarrollada por Gabriela Mogollón FACYT © 2015</p>
+          </div>
+          <div class="col-md-1 col-md-offset-4">
+            <a href="/info">Contáctonos </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
